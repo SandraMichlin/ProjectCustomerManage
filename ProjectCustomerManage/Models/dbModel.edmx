@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CustomersModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CitiesTBL">
+          <Key>
+            <PropertyRef Name="IDCity" />
+          </Key>
+          <Property Name="IDCity" Type="int" Nullable="false" />
+          <Property Name="NameCity" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CustomersTBL">
+          <Key>
+            <PropertyRef Name="IDCusomer" />
+          </Key>
+          <Property Name="IDCusomer" Type="int" Nullable="false" />
+          <Property Name="HebrewName" Type="nvarchar" MaxLength="50" />
+          <Property Name="EnglishName" Type="nvarchar" MaxLength="50" />
+          <Property Name="BirthDate" Type="date" />
+          <Property Name="IDCity" Type="int" Nullable="false" />
+          <Property Name="Bank" Type="nvarchar" MaxLength="50" />
+          <Property Name="Branch" Type="nvarchar" MaxLength="50" />
+          <Property Name="AccountNumber" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Customers.dbo.SelectCities' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="SelectCities">
+          <Key>
+            <PropertyRef Name="IDCity" />
+            <PropertyRef Name="NameCity" />
+          </Key>
+          <Property Name="IDCity" Type="int" Nullable="false" />
+          <Property Name="NameCity" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_CustomersTBL_CitiesTBL">
+          <End Role="CitiesTBL" Type="Self.CitiesTBL" Multiplicity="1" />
+          <End Role="CustomersTBL" Type="Self.CustomersTBL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CitiesTBL">
+              <PropertyRef Name="IDCity" />
+            </Principal>
+            <Dependent Role="CustomersTBL">
+              <PropertyRef Name="IDCity" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CustomersModelStoreContainer">
+          <EntitySet Name="CitiesTBL" EntityType="Self.CitiesTBL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomersTBL" EntityType="Self.CustomersTBL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SelectCities" EntityType="Self.SelectCities" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [SelectCities].[IDCity] AS [IDCity], 
+    [SelectCities].[NameCity] AS [NameCity]
+    FROM [dbo].[SelectCities] AS [SelectCities]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_CustomersTBL_CitiesTBL" Association="Self.FK_CustomersTBL_CitiesTBL">
+            <End Role="CitiesTBL" EntitySet="CitiesTBL" />
+            <End Role="CustomersTBL" EntitySet="CustomersTBL" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CustomersModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CitiesTBL">
+          <Key>
+            <PropertyRef Name="IDCity" />
+          </Key>
+          <Property Name="IDCity" Type="Int32" Nullable="false" />
+          <Property Name="NameCity" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="CustomersTBL" Relationship="Self.FK_CustomersTBL_CitiesTBL" FromRole="CitiesTBL" ToRole="CustomersTBL" />
+        </EntityType>
+        <EntityType Name="CustomersTBL">
+          <Key>
+            <PropertyRef Name="IDCusomer" />
+          </Key>
+          <Property Name="IDCusomer" Type="Int32" Nullable="false" />
+          <Property Name="HebrewName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EnglishName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BirthDate" Type="DateTime" Precision="0" />
+          <Property Name="IDCity" Type="Int32" Nullable="false" />
+          <Property Name="Bank" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Branch" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AccountNumber" Type="Int32" />
+          <NavigationProperty Name="CitiesTBL" Relationship="Self.FK_CustomersTBL_CitiesTBL" FromRole="CustomersTBL" ToRole="CitiesTBL" />
+        </EntityType>
+        <EntityType Name="SelectCities">
+          <Key>
+            <PropertyRef Name="IDCity" />
+            <PropertyRef Name="NameCity" />
+          </Key>
+          <Property Name="IDCity" Type="Int32" Nullable="false" />
+          <Property Name="NameCity" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_CustomersTBL_CitiesTBL">
+          <End Role="CitiesTBL" Type="Self.CitiesTBL" Multiplicity="1" />
+          <End Role="CustomersTBL" Type="Self.CustomersTBL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CitiesTBL">
+              <PropertyRef Name="IDCity" />
+            </Principal>
+            <Dependent Role="CustomersTBL">
+              <PropertyRef Name="IDCity" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CustomersEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CitiesTBL" EntityType="Self.CitiesTBL" />
+          <EntitySet Name="CustomersTBL" EntityType="Self.CustomersTBL" />
+          <EntitySet Name="SelectCities" EntityType="Self.SelectCities" />
+          <AssociationSet Name="FK_CustomersTBL_CitiesTBL" Association="Self.FK_CustomersTBL_CitiesTBL">
+            <End Role="CitiesTBL" EntitySet="CitiesTBL" />
+            <End Role="CustomersTBL" EntitySet="CustomersTBL" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CustomersModelStoreContainer" CdmEntityContainer="CustomersEntities">
+          <EntitySetMapping Name="CitiesTBL">
+            <EntityTypeMapping TypeName="CustomersModel.CitiesTBL">
+              <MappingFragment StoreEntitySet="CitiesTBL">
+                <ScalarProperty Name="IDCity" ColumnName="IDCity" />
+                <ScalarProperty Name="NameCity" ColumnName="NameCity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomersTBL">
+            <EntityTypeMapping TypeName="CustomersModel.CustomersTBL">
+              <MappingFragment StoreEntitySet="CustomersTBL">
+                <ScalarProperty Name="IDCusomer" ColumnName="IDCusomer" />
+                <ScalarProperty Name="HebrewName" ColumnName="HebrewName" />
+                <ScalarProperty Name="EnglishName" ColumnName="EnglishName" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="IDCity" ColumnName="IDCity" />
+                <ScalarProperty Name="Bank" ColumnName="Bank" />
+                <ScalarProperty Name="Branch" ColumnName="Branch" />
+                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SelectCities">
+            <EntityTypeMapping TypeName="CustomersModel.SelectCities">
+              <MappingFragment StoreEntitySet="SelectCities">
+                <ScalarProperty Name="IDCity" ColumnName="IDCity" />
+                <ScalarProperty Name="NameCity" ColumnName="NameCity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
