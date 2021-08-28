@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace ProjectCustomerManage.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : Controller 
     {
         CustomersEntities db = new CustomersEntities();
       
